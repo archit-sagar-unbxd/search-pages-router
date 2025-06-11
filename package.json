@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@unbxd-ui/react-search-components": "^0.1.49",
-    "@unbxd-ui/react-search-hooks": "^0.1.49",
+    "@unbxd-ui/react-search-components": "^0.1.50",
+    "@unbxd-ui/react-search-hooks": "^0.1.50",
     "next": "^14.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

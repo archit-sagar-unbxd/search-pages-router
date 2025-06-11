@@ -1,4 +1,3 @@
-import SearchWrapper from "@/components/SearchWrapper";
 import { initialise } from "@unbxd-ui/react-search-hooks/ssr-utilities";
 import Head from "next/head";
 import {
@@ -9,11 +8,14 @@ import {
 	Products,
 	ProductViewRadioButtons,
 	SearchBox,
+	SelectedFacets,
 	SortButtons,
 	Summary,
 } from "@unbxd-ui/react-search-components";
 import Image from "next/image";
 import Link from "next/link";
+import SearchWrapper from "@/components/SearchWrapper";
+import Footer from "@/components/Footer";
 
 export const getServerSideProps = async (context: { resolvedUrl: string }) => {
 	const currentPath = context.resolvedUrl || "";
@@ -25,7 +27,7 @@ export const getServerSideProps = async (context: { resolvedUrl: string }) => {
 			currentPath,
 			defaultValues: {
 				query: "*",
-				// view: "GRID",
+				pageSize: 36,
 			},
 			webUrlConfig: {
 				query: {
@@ -90,22 +92,28 @@ export default function Home({ initialData }: { initialData: Record<string, unkn
 					<Summary />
 					<div className="body-utilities">
 						<ProductViewRadioButtons
+							showLabel={true}
 							label="View:"
 							options={[
-								{
-									label: "Grid",
-									value: "GRID",
-								},
-								{
-									label: "List",
-									value: "LIST",
-								},
+								{ label: `bigView`, value: "bigView" },
+								{ label: "normalView", value: "normalView" },
+								{ label: "smallView", value: "smallView" },
 							]}
+							CustomComponent={({ item }) => {
+								if (item.value === "bigView") {
+									return <span>Large</span>;
+								} else if (item.value === "normalView") {
+									return <span>Medium</span>;
+								} else {
+									return <span>Small</span>;
+								}
+							}}
 						/>
 						<PageSize label="Products per page:" />
 						<SortButtons label="Sort:" />
 					</div>
 					<Breadcrumb name="categoryPath" />
+					<SelectedFacets clearBtnLabel="Clear All" />
 					<div className="facets-container">
 						<Facets configs={{ renderAs: "dropdown" }} />
 					</div>
@@ -115,6 +123,7 @@ export default function Home({ initialData }: { initialData: Record<string, unkn
 					</div>
 				</div>
 			</SearchWrapper>
+			<Footer />
 		</div>
 	);
 }
